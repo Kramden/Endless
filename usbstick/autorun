@@ -1,22 +1,21 @@
-#!/usr/bin/sh
+#!/bin/bash
 
-cp -p Background-Endless.png /sysroot/home/user/Pictures/Wallpapers/
-cp -rp skel/.var /sysroot/home/user/
+CHOICE=$(zenity --list \
+    --height=220 \
+    --title="Kramden Customization" \
+    --text="Choose Station" \
+    --radiolist \
+    --column="" --column="Station" \
+    FALSE "OS Load" \
+    TRUE "Final Test")
 
-gsettings set org.gnome.desktop.background picture-uri 'file:///sysroot/home/user/Pictures/Wallpapers/Background-Endless.png'
-
-cp -rp skel/.local/share/desktop-directories /sysroot/home/user/.local/share/
-
-gdbus call --system --dest org.freedesktop.Accounts --object-path /org/freedesktop/Accounts/User1001 -m org.freedesktop.Accounts.User.SetIconFile ''
-
-gdbus call --system --dest org.freedesktop.Accounts --object-path /org/freedesktop/Accounts/User1001 -m org.freedesktop.Accounts.User.SetAutomaticLogin true
-
-#sudo sed -i '/Icon/d' "/var/lib/AccountsService/users/$USER"
-
-gsettings set org.gnome.shell icon-grid-layout "{'desktop': ['google-chrome.desktop', 'org.gnome.Nautilus.desktop', 'org.libreoffice.LibreOffice-writer.desktop', 'org.libreoffice.LibreOffice-calc.desktop', 'org.libreoffice.LibreOffice-impress.desktop', 'com.endlessm.encyclopedia.en.desktop', 'eos-folder-media.directory', 'eos-folder-curiosity.directory', 'eos-folder-games.directory', 'eos-folder-social.directory', 'net.minetest.Minetest.desktop', 'com.endlessm.cooking.en.desktop', 'com.endlessm.times_of_india.en_IN', 'org.gnome.Yelp.desktop'], 'eos-folder-curiosity.directory': ['com.endlessm.celebrities.en.desktop', 'com.endlessm.myths.en.desktop', 'com.endlessm.math.en.desktop', 'com.endlessm.howto.en.desktop', 'com.endlessm.travel.en.desktop', 'com.endlessm.health.en.desktop', 'com.endlessm.dinosaurs.en.desktop', 'com.endlessm.animals.en.desktop', 'com.endlessm.translation.desktop', 'eos-link-duolingo.desktop'], 'eos-folder-games.directory': ['org.gnome.Aisleriot.desktop', 'org.gnome.Chess.desktop', 'net.supertuxkart.SuperTuxKart.desktop', 'de.billardgl.Billardgl.desktop', 'org.seul.pingus.desktop', 'com.tux4kids.tuxmath.desktop', 'org.kde.gcompris.desktop', 'com.tux4kids.tuxtype.desktop', 'org.kde.ktuberling.desktop', 'io.thp.numptyphysics.desktop', 'org.debian.TuxPuck.desktop', 'net.sourceforge.Ri-li.desktop', 'com.teeworlds.Teeworlds.desktop', 'net.sourceforge.ExtremeTuxRacer.desktop', 'org.gna.Warmux.desktop'], 'eos-folder-media.directory': ['com.endlessm.photos.desktop', 'shotwell.desktop', 'eos-spotify.desktop', 'org.gnome.Totem.desktop', 'org.tuxpaint.Tuxpaint.desktop', 'org.audacityteam.Audacity.desktop', 'com.endlessm.world_literature.en.desktop', 'org.gimp.GIMP.desktop', 'eos-link-youtube.desktop', 'org.videolan.VLC.desktop', 'rhythmbox.desktop'], 'eos-folder-social.directory': ['eos-link-twitter.desktop', 'evolution.desktop', 'eos-skype.desktop', 'eos-link-gmail.desktop', 'eos-link-facebook.desktop', 'eos-link-whatsapp.desktop']}"
-
-zenity --info --no-wrap --text="Kramden customization complete"
-
-#flatpak install --system -y eos-apps org.mozilla.Firefox | zenity --progress --pulsate --auto-close --text="Installing Firefox" --no-cancel
-#flatpak install --system -y flathub com.anydesk.Anydesk | zenity --progress --pulsate --auto-close --text="Installing AnyDesktop" --no-cancel
-#flatpak install --system -y flathub net.sourceforge.Klavaro | zenity --progress --pulsate --auto-close --text="Installing Klavaro" --no-cancel
+case $CHOICE in
+    "OS Load")
+        echo "OS Load"
+	./osload
+    ;;
+    "Final Test")
+        echo "Final Test"
+	./finaltest
+    ;;
+esac
