@@ -2,6 +2,7 @@
 
 CHOICE=$(zenity --list \
     --height=220 \
+    --width=250 \
     --title="Kramden Customization" \
     --text="Choose Station" \
     --radiolist \

@@ -21,7 +21,7 @@ fi
 
 icon_file=`gdbus introspect --system --dest org.freedesktop.Accounts --object-path /org/freedesktop/Accounts/User1001 --only-properties  |grep IconFile | sed -e 's/readonly s IconFile = //g'|tr -d ';'|tr -d ' '| tr -d "'"`
 
-if [ ! -z $icon_file ];
+if [ ! -z $icon_file ] && [ ! "$icon_file" = "/sysroot/home/user/.face" ];
 then
     failed=1
     echo "$icon_file shouldn't be set"
@@ -90,7 +90,7 @@ fi
 
 if [ $failed -eq 1 ];
 then
-    zenity --error --no-wrap --text="$error_text"
+    zenity --error --no-wrap --width=200 --title "Kramden Customization" --text="$error_text"
 else
-    zenity --info --no-wrap --text="Kramden Final Test Pass"
+    zenity --info --no-wrap --width=200 --title "Kramden Customization" --text="Final Test Pass"
 fi
