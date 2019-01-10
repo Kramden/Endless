@@ -1,0 +1,57 @@
+#!/bin/bash
+
+interactive=0
+if [ $# -gt 0 ];
+then
+    if [ $1 = "--interactive" ];
+    then
+        interactive=1
+    fi
+fi
+
+failed=0
+error_text=""
+output_text=""
+energy_rate=0
+state=""
+capacity=0
+battery=`upower -e|grep battery`
+if [ $? -eq 0 ];
+then
+    state=`upower -i $battery|grep state|awk '{print $2}'`
+    energy_rate=`upower -i $battery|grep energy-rate|awk '{print $2}'`
+    if [ $? -eq 0 ];
+    then
+        if [ ${energy_rate%.*} -lt 1 ] && [ $state = "charging" ];
+        then
+            failed=1
+            error_text="$error_text <span><b>Charging Rate:</b> $energy_rate</span>"
+        fi
+        capacity=`upower -i $battery|grep capacity|awk '{print $2}'`
+        output_text="$output_text <span><b>Battery Capacity:</b> $capacity</span>"
+        if [ ${capacity%.*} -lt 80 ];
+        then
+            failed=1
+            error_text="$error_text <span><b>Battery Capacity:</b> $capacity</span>"
+        fi
+    else
+        failed=1
+        error_text="$error_text <span><b>Unknown Batter Error</b></span>"
+    fi
+fi
+
+if [ $failed -gt 0 ];
+then
+    echo $error_text
+    if [ $interactive -eq 1 ];
+    then
+        zenity --error --no-wrap --width=200 --title "Kramden - Battery Check" --text="$error_text" > /dev/null
+    fi
+    exit 1
+fi
+
+if [ $interactive -eq 1 ];
+then
+    zenity --info --no-wrap --width=200 --title "Kramden - Battery Check" --text="$output_text" > /dev/null
+fi
+echo $output_text
