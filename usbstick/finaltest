@@ -4,7 +4,6 @@ failed=0
 error_text=""
 
 current_background=`gsettings get org.gnome.desktop.background picture-uri | tr -d "'"`
-echo $current_background
 if [ "$current_background" != 'file:///sysroot/home/user/Pictures/Wallpapers/Background-Endless.png' ];
 then
     failed=1
@@ -86,6 +85,13 @@ then
     failed=1
     echo "Icon Grid incorrect"
     error_text="$error_text <span><b>Icon Grid incorrect</b></span>"
+fi
+
+battery_check=`./battery`
+if [ $? -ne 0 ];
+then
+    failed=1
+    error_text="$error_text $battery_check"
 fi
 
 if [ $failed -eq 1 ];
