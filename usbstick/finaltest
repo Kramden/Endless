@@ -3,8 +3,10 @@
 failed=0
 error_text=""
 
+bg_string='file://'$HOME'/Pictures/Wallpapers/Background-Endless.png'
+
 current_background=`gsettings get org.gnome.desktop.background picture-uri | tr -d "'"`
-if [ "$current_background" != 'file:///sysroot/home/user/Pictures/Wallpapers/Background-Endless.png' ];
+if [ "$current_background" != $bg_string ];
 then
     failed=1
     error_text="$error_text <span><b>Current Background:</b> $current_background</span>"
@@ -20,7 +22,7 @@ fi
 
 icon_file=`gdbus introspect --system --dest org.freedesktop.Accounts --object-path /org/freedesktop/Accounts/User1001 --only-properties  |grep IconFile | sed -e 's/readonly s IconFile = //g'|tr -d ';'|tr -d ' '| tr -d "'"`
 
-if [ ! -z $icon_file ] && [ ! "$icon_file" = "/sysroot/home/user/.face" ];
+if [ ! -z $icon_file ] && [ ! "$icon_file" = "$HOME/.face" ];
 then
     failed=1
     echo "$icon_file shouldn't be set"
@@ -35,9 +37,9 @@ then
     error_text="$error_text <span><b>Automatic Login:</b> $auto_login</span>"
 fi
 
-if [ -f /sysroot/home/user/.local/share/desktop-directories/eos-folder-curiosity.directory ];
+if [ -f $HOME/.local/share/desktop-directories/eos-folder-curiosity.directory ];
 then
-    grep -e Education /sysroot/home/user/.local/share/desktop-directories/eos-folder-curiosity.directory > /dev/null
+    grep -e Education $HOME/.local/share/desktop-directories/eos-folder-curiosity.directory > /dev/null
     if [ $? -ne 0 ];
     then
         failed=1
@@ -87,7 +89,7 @@ then
     error_text="$error_text <span><b>Icon Grid incorrect</b></span>"
 fi
 
-battery_check=`./battery`
+#battery_check=`./battery`
 if [ $? -ne 0 ];
 then
     failed=1

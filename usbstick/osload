@@ -3,7 +3,9 @@
 cp -p Background-Endless.png $HOME/Pictures/Wallpapers/
 cp -rp skel/.var $HOME/
 
-gsettings set org.gnome.desktop.background picture-uri $HOME/Pictures/Wallpapers/Background-Endless.png
+bg_string='file://'$HOME'/Pictures/Wallpapers/Background-Endless.png'
+
+gsettings set org.gnome.desktop.background picture-uri $bg_string
 
 cp -rp skel/.local/share/desktop-directories $HOME/.local/share/
 
