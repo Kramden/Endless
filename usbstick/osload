@@ -1,11 +1,11 @@
 #!/usr/bin/sh
 
-cp -p Background-Endless.png /sysroot/home/user/Pictures/Wallpapers/
-cp -rp skel/.var /sysroot/home/user/
+cp -p Background-Endless.png $HOME/Pictures/Wallpapers/
+cp -rp skel/.var $HOME/
 
-gsettings set org.gnome.desktop.background picture-uri 'file:///sysroot/home/user/Pictures/Wallpapers/Background-Endless.png'
+gsettings set org.gnome.desktop.background picture-uri $HOME/Pictures/Wallpapers/Background-Endless.png
 
-cp -rp skel/.local/share/desktop-directories /sysroot/home/user/.local/share/
+cp -rp skel/.local/share/desktop-directories $HOME/.local/share/
 
 gdbus call --system --dest org.freedesktop.Accounts --object-path /org/freedesktop/Accounts/User1001 -m org.freedesktop.Accounts.User.SetIconFile ''
 
