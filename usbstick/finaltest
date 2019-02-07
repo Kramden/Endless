@@ -3,6 +3,23 @@
 failed=0
 error_text=""
 
+who=`whoami`
+if [ "$who" != "user" ];
+then
+    failed=1
+    error_text="$error_text <span><b>Username:</b> $who</span>"
+fi
+
+for p in org.mozilla.Firefox com.anydesk.Anydesk net.sourceforge.Klavaro;
+do
+  flatpak info $p > /dev/null 2>&1
+  if [ $? -ne 0 ];
+  then
+    failed=1
+    error_text="$error_text <span><b>$p not installed</b></span>"
+  fi
+done
+
 bg_string='file://'$HOME'/Pictures/Wallpapers/Background-Endless.png'
 current_background=`gsettings get org.gnome.desktop.background picture-uri | tr -d "'"`
 if [ "$current_background" != $bg_string ];
