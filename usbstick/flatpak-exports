@@ -1,0 +1,9 @@
+#!/bin/bash
+
+PWD=`pwd`
+flatpak create-usb $PWD/export app/com.anydesk.Anydesk/x86_64/stable 
+flatpak create-usb $PWD/export org.videolan.VLC/x86_64/stable
+flatpak create-usb $PWD/export net.sourceforge.Klavaro/x86_64/stable
+
+flatpak remote-ls file://$PWD/export/.ostree/repo
+
