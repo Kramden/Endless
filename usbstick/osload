@@ -20,19 +20,19 @@ echo "Disabling networking"
 nmcli n off
 sleep 2
 
+gnome-software --quit
 echo "Installing VLC"
 flatpak install --system -y flathub org.videolan.VLC/x86_64/stable | zenity --progress --pulsate --auto-close --text="Installing VLC" --no-cancel
-echo "Installing Anydesk"
-flatpak install --system -y flathub app/com.anydesk.Anydesk/x86_64/stable | zenity --progress --pulsate --auto-close --text="Installing Anydesk" --no-cancel
 echo "Installing Klavaro"
 flatpak install --system -y flathub net.sourceforge.Klavaro/x86_64/stable | zenity --progress --pulsate --auto-close --text="Installing Klavaro" --no-cancel
 
 echo "Enabling networking"
 nmcli n on
 
+sleep 5
+
+# We need network to install Anydesk
+echo "Installing Anydesk"
+flatpak install --system -y flathub app/com.anydesk.Anydesk/x86_64/stable | zenity --progress --pulsate --auto-close --text="Installing Anydesk" --no-cancel
 
 zenity --info --no-wrap --title "Kramden Customization" --text="Customization complete"
-
-#flatpak install --system -y eos-apps org.mozilla.Firefox | zenity --progress --pulsate --auto-close --text="Installing Firefox" --no-cancel
-#flatpak install --system -y flathub com.anydesk.Anydesk | zenity --progress --pulsate --auto-close --text="Installing AnyDesktop" --no-cancel
-#flatpak install --system -y flathub net.sourceforge.Klavaro | zenity --progress --pulsate --auto-close --text="Installing Klavaro" --no-cancel
