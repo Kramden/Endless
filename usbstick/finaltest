@@ -10,7 +10,7 @@ then
     error_text="$error_text <span><b>Username:</b> $who</span>"
 fi
 
-for p in org.mozilla.Firefox com.anydesk.Anydesk net.sourceforge.Klavaro;
+for p in org.videolan.VLC com.anydesk.Anydesk net.sourceforge.Klavaro;
 do
   flatpak info $p > /dev/null 2>&1
   if [ $? -ne 0 ];
@@ -105,16 +105,16 @@ then
     error_text="$error_text <span><b>Icon Grid incorrect</b></span>"
 fi
 
-upower -e|grep battery > /dev/null
-if [ $? -eq 0 ];
-then
-  battery_check=`./battery`
-  if [ $? -ne 0 ];
-  then
-    failed=1
-    error_text="$error_text $battery_check"
-  fi
-fi
+#upower -e|grep battery > /dev/null
+#if [ $? -eq 0 ];
+#then
+#  battery_check=`./battery`
+#  if [ $? -ne 0 ];
+#  then
+#    failed=1
+#    error_text="$error_text $battery_check"
+#  fi
+#fi
 
 if [ $failed -eq 1 ];
 then
