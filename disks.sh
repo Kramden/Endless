@@ -29,15 +29,15 @@ for disk in /dev/sd[a-z] /dev/sd[a-z][a-z]; do
               then
                  umount $partition
                  sync
-                 mkfs.ext4 $partition
+                 mkfs.ext4 -E lazy_itable_init $partition
                  sync
                  udisksctl mount -b $partition > /dev/null
                  sync
                  m=`udisksctl info -b $partition | grep MountPoints | awk {'print $2'}`
                  sleep 5
                  cp -rp ./usbstick/* $m/
-                 mv export/.ostree $m/
-                 rmdir export
+                 mv $m/export/.ostree $m/
+                 rmdir $m/export
               fi
           fi
         fi
