@@ -29,7 +29,7 @@ flatpak install --system -y flathub net.sourceforge.Klavaro/x86_64/stable | zeni
 echo "Enabling networking"
 nmcli n on
 
-sleep 5
+sleep 15
 
 # We need network to install Anydesk
 echo "Installing Anydesk"
