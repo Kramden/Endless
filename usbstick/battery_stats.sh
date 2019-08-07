@@ -28,4 +28,4 @@ done
 echo " "
 echo " "
 echo "Number of devices: "$count
-echo "Average capacity: "$((aggregate_capacity/2))
+echo "Average capacity: "$((aggregate_capacity/$count))
