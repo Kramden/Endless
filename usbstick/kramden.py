@@ -58,7 +58,7 @@ class StackWindow(Gtk.Window):
         try:
             ret = subprocess.check_output("./osload.sh")
             if len(ret) > 0:
-                ret_str = ret.decode("utf-8")
+                ret_str = "OS Load complete"
         except subprocess.CalledProcessError as err:
             print("Failed with %s", err)
         self.osload.set_markup(ret_str)
