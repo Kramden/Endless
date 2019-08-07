@@ -34,8 +34,6 @@ class StackWindow(Gtk.Window):
         battery_box.pack_end(battery_refresh, False, False, 0)
         self.battery_stats = Gtk.Label()
         self.on_battery_refresh_clicked(None)
-        #ret = subprocess.check_output("./battery_stats.sh")
-        #self.battery_stats.set_markup(ret.decode("utf-8"))
         battery_box.pack_start(self.battery_stats, True, True, 0)
         stack.add_titled(battery_box, "battery_box", "Battery Test")
 
@@ -59,12 +57,14 @@ class StackWindow(Gtk.Window):
         ret_str = ""
         try:
             ret = subprocess.check_output("./osload.sh")
+            if len(ret) > 0:
+                ret_str = ret.decode("utf-8")
         except subprocess.CalledProcessError as err:
             print("Failed with %s", err)
-        self.osload_result.set_markup(ret_str)
+        self.osload.set_markup(ret_str)
 
     def on_battery_refresh_clicked(self, widget):
-        ret = subprocess.check_output("../battery_stats.sh")
+        ret = subprocess.check_output("./battery_stats.sh")
         self.battery_stats.set_markup(ret.decode("utf-8"))
         print("Battery Refresh Clicked")
 
