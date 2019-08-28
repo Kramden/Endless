@@ -1,7 +1,5 @@
 #!/usr/bin/sh
 
-mkdir -p $HOME/Pictures/Wallpapers
-
 cp -p Background-Endless.png $HOME/Pictures/Wallpapers/
 cp -rp skel/.var $HOME/
 
@@ -37,4 +35,3 @@ sleep 15
 echo "Installing Anydesk"
 flatpak install --system -y flathub app/com.anydesk.Anydesk/x86_64/stable | zenity --progress --pulsate --auto-close --text="Installing Anydesk" --no-cancel
 
-zenity --info --no-wrap --title "Kramden Customization" --text="Customization complete"
