@@ -1,5 +1,7 @@
 #!/usr/bin/sh
 
+mkdir -p $HOME/Pictures/Wallpapers
+
 cp -p Background-Endless.png $HOME/Pictures/Wallpapers/
 cp -rp skel/.var $HOME/
 
