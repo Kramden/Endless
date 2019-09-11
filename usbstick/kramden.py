@@ -2,8 +2,10 @@
 
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, GLib
+import io
 import subprocess
+import time
 
 class StackWindow(Gtk.Window):
 
@@ -20,18 +22,26 @@ class StackWindow(Gtk.Window):
         
         # OS Load box
         osload_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        osload = Gtk.Button(label="Perform OS Load")
-        osload.connect("clicked", self.on_osload_clicked)
-        osload_box.pack_start(osload, True, True, 0)
+        self.osload_button = Gtk.Button(label="Perform OS Load")
+        self.osload_button.connect("clicked", self.on_osload_clicked)
+        scrolledwindow = Gtk.ScrolledWindow()
+        scrolledwindow.set_hexpand(True)
+        scrolledwindow.set_vexpand(True)
+        self.textview = Gtk.TextView()
+        self.textbuffer = self.textview.get_buffer()
+        self.textbuffer.set_text("")
+        scrolledwindow.add(self.textview)
         self.osload = Gtk.Label()
-        osload_box.pack_start(self.osload, False, False, 0)
+        osload_box.pack_start(self.osload_button, False, False, 0)
+        osload_box.pack_start(self.osload, True, True, 0)
+        osload_box.pack_end(scrolledwindow, True, True, 0)
         stack.add_titled(osload_box, "osload_box", "OS Load")
 
         # Battery Test box
         battery_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         battery_refresh = Gtk.Button(label="Refresh")
         battery_refresh.connect("clicked", self.on_battery_refresh_clicked)
-        battery_box.pack_end(battery_refresh, False, False, 0)
+        battery_box.pack_start(battery_refresh, False, False, 0)
         self.battery_stats = Gtk.Label()
         self.on_battery_refresh_clicked(None)
         battery_box.pack_start(self.battery_stats, True, True, 0)
@@ -41,9 +51,8 @@ class StackWindow(Gtk.Window):
         finaltest_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.finaltest = Gtk.Button(label="Perform Final Test")
         self.finaltest.connect("clicked", self.on_finaltest_clicked)
-        finaltest_box.pack_end(self.finaltest, False, False, 0)
+        finaltest_box.pack_start(self.finaltest, False, False, 0)
         self.finaltest_result = Gtk.Label()
-        self.finaltest_result.set_markup("Click buttom below to run final test")
         finaltest_box.pack_start(self.finaltest_result, True, True, 0)
         stack.add_titled(finaltest_box, "finaltest_box", "Final Test")
 
@@ -54,14 +63,28 @@ class StackWindow(Gtk.Window):
 
     def on_osload_clicked(self, widget):
         print("OS Load Clicked")
+        self.osload_button.hide()
+        self.osload.set_markup("Performing OS Load")
+        GLib.idle_add(self.on_osload_do, None)
+
+    def on_osload_do(self, user_data):
+        print("on_osload_do")
         ret_str = ""
-        try:
-            ret = subprocess.check_output("./osload.sh")
-            if len(ret) > 0:
-                ret_str = "OS Load complete"
-        except subprocess.CalledProcessError as err:
-            print("Failed with %s", err)
-        self.osload.set_markup(ret_str)
+        scripts = [ "osload1.sh", "vlc.sh", "klavaro.sh", "anydesk.sh", "osload3.sh" ]
+
+        for script in scripts:
+            cmd = subprocess.Popen(["./scripts/" + script],
+                                    bufsize=0,
+                                    universal_newlines=True,
+                                    stdout=subprocess.PIPE)
+            while True:
+                line = cmd.stdout.readline()
+                if not line:
+                    break
+                print (line)
+                iter = self.textbuffer.get_end_iter()
+                self.textbuffer.insert(iter, line)
+        self.osload.set_markup("OS Load Complete")
 
     def on_battery_refresh_clicked(self, widget):
         ret = subprocess.check_output("./battery_stats.sh")
@@ -71,7 +94,7 @@ class StackWindow(Gtk.Window):
     def on_finaltest_clicked(self, widget):
         print("Final Test Clicked")
         output = "Final Test Success"
-        ret = subprocess.check_output("./finaltest.sh")
+        ret = subprocess.check_output("./scripts/finaltest.sh")
         if len(ret) > 0:
             output = ret.decode("utf-8")
         self.finaltest_result.set_markup(output)
