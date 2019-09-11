@@ -1,27 +1,3 @@
 #!/bin/bash
 
-CHOICE=$(zenity --list \
-    --height=220 \
-    --width=250 \
-    --title="Kramden Customization" \
-    --text="Choose Station" \
-    --radiolist \
-    --column="" --column="Station" \
-    FALSE "Battery Check" \
-    FALSE "OS Load" \
-    TRUE "Final Test")
-
-case $CHOICE in
-    "Battery Check")
-        echo "Battery Check"
-	./battery --interactive
-    ;;
-    "OS Load")
-        echo "OS Load"
-	./osload
-    ;;
-    "Final Test")
-        echo "Final Test"
-	./finaltest
-    ;;
-esac
+./kramden.py
