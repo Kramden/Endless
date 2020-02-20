@@ -35,9 +35,8 @@ for disk in /dev/sd[a-z] /dev/sd[a-z][a-z]; do
                  sync
                  m=`udisksctl info -b $partition | grep MountPoints | awk {'print $2'}`
                  sleep 5
-                 cp -rp ./usbstick/* $m/
-                 mv $m/export/.ostree $m/
-                 rmdir $m/export
+                 cp -rp $PWD/usbstick/* $m/
+                 cp -rp $PWD/export/.ostree $m/
               fi
           fi
         fi
