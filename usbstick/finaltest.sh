@@ -10,7 +10,7 @@ then
     error_text="$error_text <span><b>Username:</b> $who</span>"
 fi
 
-for p in org.videolan.VLC com.anydesk.Anydesk net.sourceforge.Klavaro;
+for p in us.zoom.Zoom org.videolan.VLC com.anydesk.Anydesk net.sourceforge.Klavaro;
 do
   flatpak info $p > /dev/null 2>&1
   if [ $? -ne 0 ];

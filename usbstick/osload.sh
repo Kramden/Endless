@@ -21,6 +21,8 @@ nmcli n off
 sleep 2
 
 gnome-software --quit
+echo "Installing Zoom"
+flatpak install --system -y flathub us.zoom.Zoom/x86_64/stable | zenity --progress --pulsate --auto-close --text="Installing Zoom" --no-cancel
 echo "Installing VLC"
 flatpak install --system -y flathub org.videolan.VLC/x86_64/stable | zenity --progress --pulsate --auto-close --text="Installing VLC" --no-cancel
 echo "Installing Klavaro"
