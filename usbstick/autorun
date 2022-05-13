@@ -8,7 +8,7 @@ CHOICE=$(zenity --list \
     --radiolist \
     --column="" --column="Station" \
     FALSE "Battery Check" \
-    FALSE "OS Load" \
+    FALSE "OS Load/Final Test" \
     TRUE "Final Test")
 
 case $CHOICE in
@@ -16,8 +16,8 @@ case $CHOICE in
         echo "Battery Check"
 	./battery --interactive
     ;;
-    "OS Load")
-        echo "OS Load"
+    "OS Load/Final Test")
+        echo "OS Load/Final Test"
 	./osload
     ;;
     "Final Test")
